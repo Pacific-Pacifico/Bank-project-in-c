@@ -56,7 +56,7 @@ int main()
     int check=mkdir(s_year);
     if(check)
     {
-        printf("\ndirectory already exists");
+   //     printf("\ndirectory already exists");
     }
 
 //    sprintf(s_month, "%d", 11);
@@ -97,7 +97,7 @@ int main()
                 break;
 
             case 3:
-//                printf("\nEnter password for admin login=");
+                printf("\nEnter password for admin login=");
                 mask_pass(entered_pass);
 //                scanf("%s",entered_pass);
                 if(strcmp(admin_pass,entered_pass)!=0)
@@ -243,7 +243,7 @@ int previous_accno()
 void create_account()
 {
     struct customer c1;
-    char name[50],pass[15];
+    char name[50],pass[15],cpass[15];
     int acc_no=previous_accno()+1;
     if(acc_no==0)
     {
@@ -272,9 +272,25 @@ void create_account()
     gets(name);
     strcpy(&c1.acc_name,name);
     printf("\nEnter password=");
-    gets(pass);
-    strcpy(&c1.acc_pass,pass);
-
+    mask_pass(pass);
+    printf("\nEnter confirm password=");
+    mask_pass(cpass);
+    if(strcmp(pass,cpass)==0)
+    {
+        strcpy(&c1.acc_pass,pass);
+    }
+    else
+    {
+        while(strcmp(pass,cpass)!=0)
+        {
+            printf("\n\nPassword doesn't matched,please re-enter the password ");
+            printf("\nEnter password=");
+            mask_pass(pass);
+            printf("\nEnter confirm password=");
+            mask_pass(cpass);
+        }
+        strcpy(&c1.acc_pass,pass);
+    }
     printf("\nEnter amount deposited=");
     scanf("%lf",&c1.acc_bal);
 
@@ -296,6 +312,7 @@ struct customer *login()
 //    printf("\nEnter password=");
 //    while(getchar()!='\n');
 //    gets(pass);
+    printf("Enter password : ");
     mask_pass(pass);
     cptr=search(acc_no);
     if(cptr==NULL)
@@ -600,7 +617,7 @@ void clear()
 
       char flag;
 
-    printf("Do you want to clear the screen Y/y or N");
+    printf("Do you want to clear the screen Y/y or N ");
     flag = getche(); // It waits for keyboard input.
     if (flag == 'Y' || flag == 'y' )
     {
@@ -610,7 +627,7 @@ void clear()
 
  void mask_pass(char password[])
  {
-	printf("password:\n");
+	//printf("Enter password : ");
 	int p=0;
 	do{
 		password[p]=getch();
@@ -621,3 +638,4 @@ void clear()
 	}while(password[p-1]!='\r');
 	password[p-1]='\0';
  }
+
